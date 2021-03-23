@@ -2,12 +2,12 @@
   <div class="d-flex flex-column traffic-light py-5 px-4">
     <div
         v-for="light in lights"
-        v-bind:key="light.id"
+        :key="light.id"
         class="flex-grow-1 my-2 mx-3"
     >
       <Light
-          v-bind:active="active === light.type"
-          v-bind:color="light.background"
+          :active="active === light.type"
+          :color="light.background"
       />
     </div>
 
@@ -15,17 +15,36 @@
 </template>
 
 <script>
+import {mapState, mapMutations} from 'vuex';
+
 import Light from "@/components/Light";
-import TrafficLightMixin from "@/mixins/TrafficLightMixin";
+import TrafficLightDataMixin from "@/mixins/TrafficLightDataMixin";
 
 export default {
   name: "TrafficLight",
-  mixins: [TrafficLightMixin],
-  props: {
-    active: String
-  },
+  mixins: [TrafficLightDataMixin],
   components: {
     Light
+  },
+  computed: {
+    ...mapState('trafficLight', ['active', 'timer', 'next'])
+  },
+  methods: {
+    ...mapMutations('trafficLight', ['decrementTimer', 'setNext', 'setTimer', 'setActive'])
+  },
+  watch: {
+    timer: function(now) {
+      if (!now) {
+        this.setActive(this.next);
+        return;
+      }
+      setTimeout(() => this.decrementTimer(), 1000)
+    },
+    active: function(now, prev) {
+      const delay = this.delays[now];
+      const next = this.getNextLight(prev, now);
+      this.setTimer(delay); this.setNext(next);
+    }
   }
 }
 </script>

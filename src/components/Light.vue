@@ -1,6 +1,6 @@
 <template>
-  <div class="light" v-bind:style="{
-    opacity: active ? 1: 0.5,
+  <div class="light" :style="{
+    opacity: active && show ? 1: 0.5,
     background: color
   }"/>
 </template>
@@ -10,8 +10,14 @@ export default {
   name: "Light",
   props: {
     color: String,
-    active: Boolean
-  }
+    active: Boolean,
+    flashing: Boolean
+  },
+  data: () => {
+    return {
+      show: true
+    }
+  },
 }
 </script>
 
