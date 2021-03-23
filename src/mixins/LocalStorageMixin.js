@@ -6,8 +6,8 @@ export default {
         }
     },
     methods: {
-        saveOnReload: (state) => {
-            window.onunload = () => localStorage.setItem('state', JSON.stringify(state()))
+        saveOnReload: (getState) => {
+            window.onunload = () => localStorage.setItem('state', JSON.stringify(getState()))
         },
         clearStorageState() {
             localStorage.setItem('state', null);
