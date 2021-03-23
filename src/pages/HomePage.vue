@@ -21,10 +21,15 @@ export default {
     this.setActive(this.$route.params.lightType);
   },
   methods: {
-    ...mapMutations('trafficLight', ['setActive'])
+    ...mapMutations('trafficLight', ['setActive', 'setTimer'])
   },
   computed: {
-    ...mapState('trafficLight', ['timer'])
+    ...mapState('trafficLight', ['timer', 'active', 'next'])
+  },
+  watch: {
+    active: function(now) {
+      this.$router.push(`/${now}`);
+    }
   }
 }
 </script>

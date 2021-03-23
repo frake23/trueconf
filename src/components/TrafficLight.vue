@@ -18,11 +18,12 @@
 import {mapState, mapMutations} from 'vuex';
 
 import Light from "@/components/Light";
-import TrafficLightDataMixin from "@/mixins/TrafficLightDataMixin";
+import TrafficLightDataMixin from "@/mixins/TrafficLightDataMixin.js";
+import LocalStorageMixin from "@/mixins/LocalStorageMixin.js";
 
 export default {
   name: "TrafficLight",
-  mixins: [TrafficLightDataMixin],
+  mixins: [TrafficLightDataMixin, LocalStorageMixin],
   components: {
     Light
   },
@@ -31,6 +32,10 @@ export default {
   },
   methods: {
     ...mapMutations('trafficLight', ['decrementTimer', 'setNext', 'setTimer', 'setActive'])
+  },
+  mounted() {
+    const stateFunc = () => ({active: this.active, next: this.next, timer: this.timer});
+    this.saveOnReload(stateFunc);
   },
   watch: {
     timer: function(now) {
@@ -41,8 +46,17 @@ export default {
       setTimeout(() => this.decrementTimer(), 1000)
     },
     active: function(now, prev) {
-      const delay = this.delays[now];
-      const next = this.getNextLight(prev, now);
+      let delay; let next;
+
+      if (this.storageState && this.storageState.active === this.active) {
+        delay = this.storageState.timer;
+        next = this.storageState.next;
+        this.clearStorageState();
+      } else {
+        delay = this.delays[now];
+        next = this.getNextLight(prev, now);
+        if (this.storageState) this.clearStorageState();
+      }
       this.setTimer(delay); this.setNext(next);
     }
   }
