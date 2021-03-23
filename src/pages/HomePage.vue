@@ -17,18 +17,25 @@ import TrafficLight from "@/components/TrafficLight";
 export default {
   name: "HomePage",
   components: { TrafficLight },
+  created() {
+    if (!['green', 'yellow', 'red'].includes(this.lightType))
+      this.$router.push('/green')
+  },
   mounted() {
-    this.setActive(this.$route.params.lightType);
+    this.setActive(this.lightType);
   },
   methods: {
     ...mapMutations('trafficLight', ['setActive'])
   },
   computed: {
-    ...mapState('trafficLight', ['timer', 'active'])
+    ...mapState('trafficLight', ['timer', 'active']),
+    lightType(){
+      return this.$route.params.lightType
+    }
   },
   watch: {
     active: function(now) {
-      this.$router.push(`/${now}`);
+      if (this.lightType !== now) this.$router.push(`/${now}`);
     }
   }
 }

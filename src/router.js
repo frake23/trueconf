@@ -5,7 +5,6 @@ import HomePage from "@/pages/HomePage";
 Vue.use(VueRouter)
 
 const routes = [
-    { path: '/', redirect: '/green' },
     { path: '/:lightType', component: HomePage }
 ];
 
