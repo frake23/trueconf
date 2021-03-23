@@ -34,8 +34,9 @@ export default {
     ...mapMutations('trafficLight', ['decrementTimer', 'setNext', 'setTimer', 'setActive'])
   },
   mounted() {
-    const getState = () => ({active: this.active, next: this.next, timer: this.timer});
-    this.saveOnReload(getState);
+    this.saveOnReload(() => {
+      return {active: this.active, next: this.next, timer: this.timer}
+    });
   },
   watch: {
     timer: function(now) {
