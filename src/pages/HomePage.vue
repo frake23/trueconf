@@ -19,7 +19,7 @@ export default {
   components: { TrafficLight },
   created() {
     if (!['green', 'yellow', 'red'].includes(this.lightType))
-      this.$router.replace('/green')
+      this.$router.replace('/red')
   },
   mounted() {
     this.setActive(this.lightType);

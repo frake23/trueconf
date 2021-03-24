@@ -4,9 +4,9 @@ export default {
         return {
             lights: [
                 {
-                    type: 'green',
-                    background: '#24e71e',
-                    delay: 15
+                    type: 'red',
+                    background: 'red',
+                    delay: 10
                 },
                 {
                     type: 'yellow',
@@ -14,10 +14,10 @@ export default {
                     delay: 3
                 },
                 {
-                    type: 'red',
-                    background: 'red',
-                    delay: 10
-                }
+                    type: 'green',
+                    background: '#24e71e',
+                    delay: 15
+                },
             ]
         }
     },
