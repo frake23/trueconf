@@ -24,7 +24,7 @@ export default {
     methods: {
         getNextLight(prev, active) {
             if (active === 'yellow')
-                return prev === 'red' ? 'green' : 'red';
+                return prev === 'green' ? 'red' : 'green';
             else
                 return 'yellow'
         }
