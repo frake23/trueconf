@@ -19,7 +19,7 @@ export default {
   components: { TrafficLight },
   created() {
     if (!['green', 'yellow', 'red'].includes(this.lightType))
-      this.$router.push('/green')
+      this.$router.replace('/green')
   },
   mounted() {
     this.setActive(this.lightType);
@@ -35,7 +35,7 @@ export default {
   },
   watch: {
     active: function(now) {
-      if (this.lightType !== now) this.$router.push(`/${now}`);
+      if (this.lightType !== now) this.$router.replace(`/${now}`);
     }
   }
 }
